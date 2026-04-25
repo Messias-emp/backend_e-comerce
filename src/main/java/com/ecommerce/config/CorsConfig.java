@@ -69,10 +69,10 @@ public class CorsConfig {
         // ✔ DEV (Angular local)
         // ✔ PROD (seu frontend deployado)
         config.setAllowedOrigins(List.of(
-
         "http://localhost:4200",
-        "https://*.vercel.app"
-        ));// 🔥 trocar depois
+        "https://frontend-loja-virtual.vercel.app" ));// 🔥 trocar depois
+
+    
         
 
         // =====================================================
