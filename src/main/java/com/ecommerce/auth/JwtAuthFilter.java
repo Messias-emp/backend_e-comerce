@@ -27,64 +27,69 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+  @Override
+protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain) throws ServletException, IOException {
 
-        final String path = request.getServletPath();
-
-        // 🔓 Rotas públicas
-        if (path.startsWith("/auth")
-                || path.startsWith("/api/products")
-                || path.startsWith("/h2-console")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        final String authHeader = request.getHeader("Authorization");
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        try {
-
-            final String token = authHeader.substring(7);
-            final String email = jwtService.extractUsername(token);
-
-            if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                UserDetails userDetails =
-                        userDetailsService.loadUserByUsername(email);
-
-                if (jwtService.isTokenValid(token, userDetails)) {
-
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(
-                                    userDetails,
-                                    null,
-                                    userDetails.getAuthorities()
-                            );
-
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource()
-                                    .buildDetails(request)
-                    );
-
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(authToken);
-                }
-            }
-
-        } catch (Exception e) {
-            // Se token for inválido ou expirado, apenas continua sem autenticar
-            // Evita quebrar a aplicação com erro 500
-        }
-
+    // 🔥 LIBERA PREFLIGHT (CORS) — ESSENCIAL PRA VERCEL
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
         filterChain.doFilter(request, response);
+        return;
     }
+
+    final String path = request.getServletPath();
+
+    // 🔓 Rotas públicas
+    if (path.startsWith("/auth")
+            || path.startsWith("/api/products")
+            || path.startsWith("/h2-console")) {
+        filterChain.doFilter(request, response);
+        return;
+    }
+
+    final String authHeader = request.getHeader("Authorization");
+
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        filterChain.doFilter(request, response);
+        return;
+    }
+
+    try {
+
+        final String token = authHeader.substring(7);
+        final String email = jwtService.extractUsername(token);
+
+        if (email != null &&
+            SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(email);
+
+            if (jwtService.isTokenValid(token, userDetails)) {
+
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authToken);
+            }
+        }
+
+    } catch (Exception e) {
+        // evita quebrar requisição por token inválido
+    }
+
+    filterChain.doFilter(request, response);
+}       
 }
