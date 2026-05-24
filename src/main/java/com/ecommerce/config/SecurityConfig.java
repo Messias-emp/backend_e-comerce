@@ -91,7 +91,6 @@ public class SecurityConfig {
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-
             .authorizeHttpRequests(auth -> auth
 
                     // 🔥 ESSENCIAL: liberar preflight
@@ -99,7 +98,7 @@ public class SecurityConfig {
 
                     // públicas
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/products/**").permitAll()
+                    .requestMatchers("/api/products/**").permitAll()
 
                     // protegidas
                     .requestMatchers("/orders/**").authenticated()
