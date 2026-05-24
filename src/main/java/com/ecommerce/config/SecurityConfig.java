@@ -99,7 +99,7 @@ public class SecurityConfig {
 
                     // públicas
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/api/products/**").permitAll()
+                    .requestMatchers("/products/**").permitAll()
 
                     // protegidas
                     .requestMatchers("/orders/**").authenticated()
