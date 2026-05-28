@@ -3,6 +3,9 @@ package com.ecommerce.auth;
 import com.ecommerce.auth.dto.AuthResponse;
 import com.ecommerce.auth.dto.LoginRequest;
 import com.ecommerce.common.dto.ApiResponse;
+
+import com.ecommerce.auth.dto.RegisterRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,7 @@ public class AuthController {
         this.authService = authService;
     }
 
+      // LOGIN
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(
             @RequestBody LoginRequest request) {
@@ -29,4 +33,12 @@ public class AuthController {
 
         return ResponseEntity.ok(apiResponse);
     }
+    // REGISTER
+    @PostMapping("/register")
+public ResponseEntity<?> register(
+        @RequestBody RegisterRequest request
+) {
+
+    return ResponseEntity.ok("Usuário registrado com sucesso");
+}
 }
