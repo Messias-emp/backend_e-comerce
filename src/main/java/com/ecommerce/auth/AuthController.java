@@ -6,6 +6,8 @@ import com.ecommerce.common.dto.ApiResponse;
 
 import com.ecommerce.auth.dto.RegisterRequest;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +36,18 @@ public class AuthController {
         return ResponseEntity.ok(apiResponse);
     }
     // REGISTER
-    @PostMapping("/register")
+@PostMapping("/register")
 public ResponseEntity<?> register(
         @RequestBody RegisterRequest request
 ) {
 
-    return ResponseEntity.ok("Usuário registrado com sucesso");
+    authService.register(request);
+
+    return ResponseEntity.ok(
+        Map.of(
+            "success", true,
+            "message", "Usuário registrado com sucesso"
+        )
+    );
 }
 }
