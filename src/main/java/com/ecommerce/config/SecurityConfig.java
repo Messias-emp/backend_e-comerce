@@ -97,13 +97,15 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                     // públicas
-                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/auth/**").permitAll()
+                   
                     .requestMatchers("/api/products/**").permitAll()
 
                     // protegidas
-                    .requestMatchers("/orders/**").authenticated()
-                    .requestMatchers(HttpMethod.POST, "/orders/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.GET, "/orders/**").hasRole("USER")
+                    
+                    .requestMatchers("/api/orders/**").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/orders/**").hasRole("USER")
+                    .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("USER")
 
                     .anyRequest().authenticated()
             )
