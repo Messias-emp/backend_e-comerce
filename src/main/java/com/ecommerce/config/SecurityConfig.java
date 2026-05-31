@@ -93,22 +93,20 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
 
-                    // 🔥 ESSENCIAL: liberar preflight
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                    // públicas
-                    .requestMatchers("/auth/**").permitAll()
-                   
-                    .requestMatchers("/api/products/**").permitAll()
+    // Auth
+    .requestMatchers("/auth/**").permitAll()
 
-                    // protegidas
-                    
-                    .requestMatchers("/api/orders/**").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/api/orders/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("USER")
+    // Produtos
+    .requestMatchers("/api/products/**").permitAll()
 
-                    .anyRequest().authenticated()
-            )
+    // Pedidos
+    .requestMatchers("/api/orders/**")
+    .hasAnyRole("USER", "ADMIN")
+
+    .anyRequest().authenticated()
+)
 
             .authenticationProvider(authenticationProvider())
 

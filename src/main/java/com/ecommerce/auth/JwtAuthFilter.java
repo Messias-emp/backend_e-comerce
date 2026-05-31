@@ -42,12 +42,7 @@ protected void doFilterInternal(
     final String path = request.getServletPath();
 
     // 🔓 Rotas públicas
-    if (path.startsWith("/auth")
-            || path.startsWith("/api/products")
-            || path.startsWith("/h2-console")) {
-        filterChain.doFilter(request, response);
-        return;
-    }
+
 
     final String authHeader = request.getHeader("Authorization");
 
