@@ -95,6 +95,8 @@ public class SecurityConfig {
 
     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+   .requestMatchers("/admin/dashboard/**")
+    .hasRole("ADMIN")
     // Auth
     .requestMatchers("/auth/**").permitAll()
 

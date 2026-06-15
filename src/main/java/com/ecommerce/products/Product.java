@@ -27,7 +27,11 @@ public class Product {
     // Descrição detalhada
     @Column(length = 1000)
     private String description;
-    
+
+    // Descrição completa
+    @Column(length = 3000)
+    private String details;
+        
     // Preço com precisão financeira
     @Column(nullable = false)
     private BigDecimal price;
