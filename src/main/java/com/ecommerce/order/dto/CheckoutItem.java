@@ -24,4 +24,5 @@ public class CheckoutItem {
 
     // 💰 Preço unitário no momento da compra
     private BigDecimal price;
+    private String imageUrl;
 }

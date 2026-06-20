@@ -55,18 +55,23 @@ public class Product {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
+    public String getDetails() { return details; }
+    public void setDetails(String details) { this.details = details; }
+
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
 
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
+
      // construtor usado no DataLoader
-    public Product(Long id, String name, String description,
+    public Product(Long id, String name, String description, String details,
                BigDecimal price, Integer stock,
                String imageUrl, Boolean active) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.details = details;
     this.price = price;
     this.stock = stock;
     this.imageUrl = imageUrl;

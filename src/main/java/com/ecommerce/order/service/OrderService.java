@@ -71,6 +71,7 @@ public class OrderService {
             item.setProductName(req.getProductName());
             item.setQuantity(req.getQuantity());
             item.setPrice(req.getPrice());
+            item.setImageUrl(req.getImageUrl());
 
             return item;
 

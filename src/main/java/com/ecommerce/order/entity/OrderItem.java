@@ -30,6 +30,8 @@ public class OrderItem {
     private String productName;
     private Integer quantity;
     private BigDecimal price;
+    // NOVO CAMPO
+    private String imageUrl;
 
 }
 
